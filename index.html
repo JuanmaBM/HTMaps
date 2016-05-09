@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!-- Latest compiled and minified CSS (in this moment 18/02/16) -->
+	<link href="http://netdna.bootstrapcdn.com/bootswatch/3.2.0/cerulean/bootstrap.min.css" rel="stylesheet">	
+	<!-- Projects CSS file -->
+	<link href="asset/css/general.css" rel="stylesheet">		
+	<link href="asset/css/menu.css" rel="stylesheet">		
+	
+	<title>HTMaps</title>
+</head>
+
+<body>	 
+	<div id="wrapper">
+        <div class="overlay"></div>
+    
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+            <ul id="main-navbar" class="nav sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                       HTMAPS
+                    </a>
+                </li>
+                <li>
+                    <a id="btnNewUbication" href="#" data-toggle="modal" data-target="#myModal">Nueva ubicación</a>
+                </li>
+                <li>
+                    <a id="btnNewUbication" onclick="formNewRegion()" href="#" data-toggle="modal" data-target="#modalRegion">Gestionar regiones</a>
+                </li> 
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#modalImport">Importar</a>
+                </li>                
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Regiones<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                  	<li><a href="#" class="continent" id="africa">Africa</a></li>
+                  	<li><a href="#" class="continent" id="american">America del norte</a></li>
+                  	<li><a href="#" class="continent" id="americas">America del sur</a></li>
+                  	<li><a href="#" class="continent" id="asia">Asia</a></li>
+                  	<li><a href="#" class="continent" id="australia">Australia</a></li>
+                    <li><a href="#" class="continent" id="europa">Europa</a></li> 
+                    <li><a href="#" class="continent" id="all">Ver todas las regiones</a></li> 
+                    <li><a href="#" class="continent" id="regionAll">Ver todas las ubicaciones</a></li>                     
+                  </ul>
+                </li>
+                <li id="country-list" class='dropdown' style="display:none;">
+			      <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Paises<span class='caret'></span></a>
+			      <ul id="country-list-option" class='dropdown-menu' role='menu'>			       
+			        
+			      </ul>
+			    </li>
+			    <li>
+                    <a id="btnClearRoutes" onclick="clearRoutes()" href="#">Eliminar rutas</a>
+                </li>                  
+                <h3>Buscar</h3>
+                <div class="input-group">
+	                <input id="ubicationToSearch" class="searchPoint form-control" type="text">  
+	                <span class="input-group-btn">
+	                	<button onclick="searchPoint()" class="btn btn-default" type="button">
+	                		<span style="color:#285b79;" class="glyphicon glyphicon-search" aria-hidden="true"></span>
+	                	</button>	                	
+	                </span>
+                </div>
+            </ul>
+        </nav>
+        <!-- #sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+                <span class="hamb-top"></span>
+    			<span class="hamb-middle"></span>
+				<span class="hamb-bottom"></span>
+            </button>
+            <div >
+                <div class="row">
+                    <div class="col-lg-12">
+                    	<div class="google-maps-container">
+                        	<div class="google-maps" id="map"></div>           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->    
+
+    <!-- Modal Form ubication -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Nueva ubicación</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form id="newUbication" action="newUbication.php" method="POST">
+	        	<div class="row">	        			
+	        		<div class="form-div col-md-12">
+	        			<div id="newUbicationErrorForm" class="error-messages alert alert-danger" role="alert">
+				        	
+				        </div>				        
+			        	<label>Nombre:</label>
+			        	<input id="name" type="text" name="name" class="form-control" required>
+		        	</div>
+		        	<div class="form-div col-md-6">
+			        	<label>Latitud:</label><br>
+			        	<input id="latitude" type="text" name="latitude" class="form-control" style="width:50%;" required>
+			        	
+		        	</div>
+		        	<div class="form-div col-md-6">
+		        		<div class="center-block">					        	
+			        		<label>Longitud:</label>					        	
+				        	<input id="longitude" type="text" name="longitude" class="form-control" style="width:50%;" required>	       	
+			        	</div>
+		        	</div>
+		        	<div class="form-div col-md-12">
+			        	<label>Dirección:</label>
+			        	<div class="input-group">
+				        	<input id="address" type="text" name="direction" class="form-control" required>
+				        	<span class="input-group-btn">
+					          <a class="btn btn-primary" id="searchAddress">Buscar</a>
+					        </span>					        	
+				        </div>
+				        <div id="mapSearchError" class="error-messages alert alert-danger" role="alert">
+				        	No se ha encontrado la dirección introducida, compruebe que la ha escrito correctamente.
+				        </div>
+			        	<div id="mapSearch"></div>
+		        	</div>
+		        	<div class="form-div col-md-12">
+			        	<label>Web:</label>
+			        	<input id="web" type="text" name="web" class="form-control">
+		        	</div>
+		        	<div class="form-div col-md-12">
+			        	<label>Teléfono:</label>
+			        	<input id="phone" type="text" name="phone" class="form-control">
+		        	</div>
+		        	<div class="form-div col-md-12">
+			        	<label>Color:</label>
+			        	<select id="color" name="color" class="form-control">
+			        		<option value="red">Rojo</option>
+			        		<option value="green">Verde</option>
+			        		<option value="orange">Naranja</option>
+			        	</select>
+		        	</div>
+		        	<div class="form-div col-md-12">
+			        	<label>Comentarios:</label><br>
+			        	<textarea id="coment" name="coment" class="form-control" rows="5"></textarea>
+		        	</div>
+	        	</div>
+	        	<input id="id" type="text" name="id" class="form-control" style="display:none">
+	        	<input id="country" type="text" name="country" class="form-control" style="display:none">
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	        <button id="saveUbication" type="button" class="btn btn-default">Guardar</button>
+	        <button id="updateUbication" type="button" class="btn btn-default" style="display:none">Actualizar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- End Modal Form -->
+
+	<!-- Modal Form region -->
+	<div class="modal fade" id="modalRegion" tabindex="-1" role="dialog" aria-labelledby="modalLabelRegion">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div id="modal-header-region" class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="modalLabelRegion">Gestionar regiones</h4>
+	      </div>
+	      <div class="modal-body">
+	        	<div class="row">	  
+
+	        		<div class="form-div col-md-12">
+	        			<h3>Nueva region</h3>
+	        			<div id="newRegionErrorForm" class="error-messages alert alert-danger" role="alert">
+				        	No ha introducido el nombre de la región
+				        </div>
+				        <div id="newUbicationSuccessForm" class="alert alert-success" role="alert">
+				        	Región registrada con exito
+				        </div>
+	        			<label>Nombre:</label>	        			
+	        			<input id="region" type="text" name="region" class="form-control" required>
+	        			<label>Continente al que pertenece:</label>
+			        	<select id="continentSelect" name="continentSelect" class="form-control">
+			        		<option value="africa">Africa</option>
+							<option value="american">America del norte</option>
+							<option value="americas">America del sur</option>
+							<option value="asia">Asia</option>
+							<option value="australia">Australia</option>
+							<option value="europa">Europa</option>			        	
+						</select>
+						<button id="newRegion" onclick="newRegion()" type="button" class="btn btn-default">Registrar</button>
+	        		</div>
+	        		<div class="form-div col-md-12">
+	        			<h3>Todas las regiones</h3>
+			        	<label>Continente:</label>
+			        	<select id="continentView" class="form-control">
+			        		<option value="africa">Africa</option>
+							<option value="american">America del norte</option>
+							<option value="americas">America del sur</option>
+							<option value="asia">Asia</option>
+							<option value="australia">Australia</option>
+							<option value="europa">Europa</option>			        	
+						</select>
+		        	</div>
+		        	<div class="form-div col-md-12">
+		        		<div class="panel panel-default">
+						 	 <div class="panel-heading">Regiones registradas</div>
+							 	<ul id="Regionlist" class="list-group">
+									
+								</ul>
+							</div>
+		        		</div>
+
+	        	</div>
+	      </div>
+	      <div id="modal-footer-region" class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- End Modal Form -->
+
+	<!-- Modal Routes option -->
+	<div class="modal fade" id="modalRoute" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div id="modal-header-route" class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Opciones de rutas</h4>
+	      </div>
+	      <div class="modal-body">
+	        	<div class="row">	  	        		
+	        		<div class="form-div col-md-12">
+	        			<h3>Cuando configure las opciones cierre este formulario y elgija el destino</h3>	      
+			        	<label>Color:</label>
+			        	<select id="colorRoute" class="form-control">
+			        		<option value="red" style="background-color:red; color:white;">Rojo</option>							
+							<option value="green" style="background-color:green; color:white;">Verde</option>
+							<option value="yellow" style="background-color:yellow; color:black;">Amarillo</option>
+							<option value="blue" style="background-color:blue; color:white;">Azul</option>
+							<option value="black" style="background-color:black; color:white;">Negro</option>						
+						</select>
+		        	</div>
+		        	<div class="form-div col-md-12">
+		        		<label>Opacidad:</label>
+		        		<input type="range" id="opacity" name="opacity" min="0" max="10" step="1" value="5">
+	        		</div>
+	        		<div class="form-div col-md-12">
+		        		<label>Tamaño:</label>
+		        		<input type="range" id="size" name="size" min="0" max="10" step="1" value="5">
+	        		</div>
+	        		<div class="form-div col-md-12">
+	        			<h3>Resultado</h3>
+	        			<div id="mapRoutesOption"></div>
+	        		</div>	        		
+	        	</div>
+	      </div>
+	      <div id="modal-footer-route" class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- End Modal Routes option -->
+
+	<!-- Modal import -->
+	<div class="modal fade" id="modalImport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div id="modal-header-import" class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Importar archivo KML</h4>
+	      </div>
+	      <div class="modal-body">
+	        	<div class="row">	  	        		
+	        		<div class="col-md-12">	        			
+	        			<h3>Seleccione el archivo que desea importar</h3>
+	        			<form id="importForm" action="server/import.php" method="POST" enctype="multipart/form-data">
+							<input id="importFile" type="file" name="file" id="file"/>
+						</form>
+	        		</div>
+	        	</div>
+	      </div>
+	      <div id="modal-footer-import" class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	        <input form="importForm" value="Guardar" type="submit" class="btn btn-primary">
+	        <!-- <button onclick="importBD()" type="button" class="btn btn-default">Guardar</button> -->
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- End Modal import -->
+</body>
+
+<footer>
+	<!-- Google maps API -->
+	<script src="http://maps.google.com/maps/api/js"></script>
+	<!-- Gmaps.js by https://github.com/hpneo/gmaps -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gmaps.js/0.4.22/gmaps.js"></script>
+	<!-- jQuery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<!-- Bootstrap jQuery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<!-- Projects js Files -->
+	<script src="asset/js/validations.js"></script>
+	<script src="asset/js/maps.js"></script>
+	<script src="asset/js/regions.js"></script>
+	<script src="asset/js/menu.js"></script>
+</footer>
+
+</html>

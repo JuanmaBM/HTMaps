@@ -1,0 +1,130 @@
+
+/*#map {
+  
+position:relative;
+padding-bottom:51.25%;  16:9 
+padding-top:5%;
+height:0;
+max-width:100%;
+margin:0 auto;
+
+}*/
+
+
+.google-maps-container {
+    position: relative;
+    padding-bottom: 50%; 
+    height: 0;
+    overflow: hidden;
+}
+
+.google-maps {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#mapSearch, #mapRoutesOption{
+	margin: 0 auto;
+	margin-top: 2%;
+	border: solid 5px #606060;
+	width: 400px;
+	height: 200px;
+	display: none;
+}
+
+#mapSearchError{
+	display: none;
+}
+
+#newUbicationErrorForm, #newRegionErrorForm, #newUbicationSuccessForm, #btnClearRoutes{
+	display: none;
+}
+
+html, body {
+ height: 100%; width: 100%; margin: 0; 
+}
+
+textarea {
+	resize: none;
+}
+
+label{
+	color: white;
+}
+
+#header{
+	background-color: #5f5f5f;
+	color: white;
+	text-align: center;
+}
+
+.form-div{
+	margin-bottom: 3%;
+}
+
+.modal-content{
+	background-color: #1A1A1A;
+	color: #FDE7EE;
+}
+
+.modal-header, .modal-footer{
+	background-color: #ff3d40;
+}
+
+#modal-header-region, #modal-footer-region{
+	background-color: #79aefe;
+}
+
+#modal-header-import, #modal-footer-import{
+	background-color: #314190;
+}
+
+#modal-header-route, #modal-footer-route{
+	background-color: #279636;
+}
+
+#myModalLabel, #modalLabelRegion{
+	color: white;
+}
+
+.modal-content input{
+	color: white;
+	background-color: #606060;
+}
+
+#color, #coment{
+	color: white;
+	background-color: #606060;
+}
+
+.invalid{
+	border-color: #E9322D!important;
+	box-shadow: 0 0 6px #F8B9B7!important;
+}
+
+.error-messages{
+	background-color: #FF3D40!important;
+	box-shadow: 0 0 6px #F8B9B7!important;
+	color: white;
+}
+
+.list-group-item{
+	background-color: black;
+	color: white;
+}
+
+#newRegion{
+	margin-top: 2%;
+}
+
+#newUbicationSuccessForm{	
+	color: #307daa;
+}
+
+.searchPoint{
+	background-color: #606060;
+	color: white;
+}
